@@ -97,10 +97,13 @@ create or replace package body dbms_datasets as
           when others then
             if raise_exception then
                 raise;
-            else                
-                write(sqlcode);
-                write(sqlerrm);
-            end if;        
+            else
+                -- don't output error if dropping table that doesn't exist
+                if sqlcode != -942 then                    
+                    write(sqlcode);
+                    write(sqlerrm);
+                end if;
+            end if;             
     end exec;
   
   /*
