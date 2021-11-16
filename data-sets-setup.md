@@ -146,6 +146,17 @@ You must enter a dataset name and/or a dataset group.
         exec dbms_datasets.get(p_dataset_group => 'moviestream', p_overwrite => true, p_load_data => false)
     </copy>
     ```
+    Run a query that joins multiple tables. Find the top 10 movie genres based on sales:
+    ```sql
+    <copy>
+        select g.name, round(sum(c.actual_price),0) as sales
+        from genre g, custsales c
+        where g.genre_id = c.genre_id
+        group by g.name
+        order by 2 desc
+        fetch first 10 rows only;
+    </copy>
+    ```
 
 ## Viewing a log of the installation
 You can view a log of the dataset installation by querying the **datasets\_log** table:
