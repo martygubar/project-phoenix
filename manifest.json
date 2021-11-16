@@ -4,7 +4,7 @@
     "tutorials": [
         {
           "title": "Getting started",
-          "filename": "https://raw.githubusercontent.com/martygubar/project-phoenix/master/data-sets-setup.md"
+          "filename": "./data-sets-setup.md"
         }
     ]
 }
