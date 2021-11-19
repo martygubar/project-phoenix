@@ -18,7 +18,7 @@ begin
     -- create the view over the list of dataset groups
     begin
         execute immediate q'+
-        create or replace view dataset_groups as  
+        create or replace view datasets_groups as  
         select 
             a.doc.dataset_group as dataset_group,
             a.doc.description as description,
@@ -79,7 +79,7 @@ begin
             ) a 
         )
         select g.dataset_group, a.* 
-        from all_datasets a, dataset_groups g
+        from all_datasets a, datasets_groups g
         where a.dataset_name = g.dataset_name 
         ]';
 
