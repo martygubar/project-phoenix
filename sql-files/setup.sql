@@ -80,7 +80,7 @@ begin
         )
         select g.dataset_group, a.* 
         from all_datasets a, dataset_groups g
-        where a.dataset_name = g.dataset_name; 
+        where a.dataset_name = g.dataset_name 
         ]';
 
         exception
