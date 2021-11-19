@@ -1,0 +1,85 @@
+{
+    "$schema":"http://json-schema.org/draft-04/schema",
+
+    "properties": {
+        "dataset_name": {
+            "type":"string",
+            "description": "Name of the dataset"
+        },
+        "description": {
+            "type":"string",
+            "description": "Description of the dataset"
+        },
+        "table_name": {
+            "type":"string",
+            "description": "Name of the table"
+        },        
+        "file_type": {
+            "type":"string",
+            "enum": ["csv","json","parquet","orc","avro","txt"]
+        },
+        "sql_script": {
+            "type":"string",
+            "format": "uri",
+            "description": "Optional SQL script that is run after dataset is installed. URL is pointer to the script."
+        },
+        "format": {
+            "type":"string",
+            "description": "The format spec for the file (uses ADB format spec)"
+        },
+        "attribution": {
+            "type":"string",
+            "description": "Source of the dataset and the legal attribution"
+        },
+        "last_updated": {
+            "type":"string",
+            "format":"date-time",
+            "description": "Date that the dataset was last updated"
+        },
+        "version": {
+            "type":"number",
+            "description": "Dataset version.  This field is incremented with changes to the schema"
+        },
+        "columns": {
+            "type":"array",
+            "items": { 
+                "$ref":"#/$defs/column"                
+            }
+        },
+        "url": {
+            "type":"string",
+            "format": "uri"
+        }
+    },
+    "$defs": {
+        "columns": {
+            "type":"object",
+            "properties": {
+                "column_name": {
+                    "type":"string",
+                    "description":"Column name"
+                },
+                "column_description":{
+                    "type":"string",
+                    "description":"A description of the column "
+                } ,
+                "data_type": {
+                    "type":"string",
+                    "description":"Column data type"
+                },
+                "data_precision": {
+                    "type":"number",
+                    "description":"Number of digits in the number"
+                },
+                "data_scale": {
+                    "type":"number",
+                    "description":"Number of digits to the right of the decimal point"
+                },
+                "data_length": {
+                    "type":"number",
+                    "description":"Length of the column (in bytes)."
+                }               
+            }
+        }
+    }
+}

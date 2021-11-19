@@ -1,0 +1,38 @@
+{
+    "$schema":"http://json-schema.org/draft-04/schema",
+
+    "properties": {
+        "dataset_group": {
+            "type":"string",
+            "description": "Contains a list of related datasets (e.g. tables in a star schema)"
+        },
+        "description": {
+            "type":"string",
+            "description": "Description of the data set group"
+        },
+        "version": {
+            "type":"number",
+            "description": "Dataset group version."
+        },
+        "last_updated": {
+            "type":"string",
+            "format":"date-time",
+            "description": "Date that the dataset group was last updated"
+        },
+        "sql_script": {
+            "type":"string",
+            "format": "uri",
+            "description": "Optional SQL script that is run after dataset group is installed. URL is pointer to the script."
+        },
+        "dataset_list": {
+            "description": "List of data sets that are part of this group",
+            "type":"array",
+            "items": { 
+                "dataset_name":{
+                    "description":"Must be a valid dataset_name",
+                    "type":"string"                
+                }
+            }
+        }
+    }
+}
