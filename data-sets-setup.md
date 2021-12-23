@@ -7,10 +7,19 @@ A **dataset** is equivalent to an Oracle Database table.  A **dataset group** is
 
 ### Prerequisites
 You need access to an Oracle Database 19c instance - like Autonomous Database. In addition, you need the following database privileges:
-* CREATE TABLE
-* CREATE VIEW
-* CREATE PROCEDURE
-* EXECUTE privilege on package DBMS_CLOUD
+
+```sql
+<copy>
+
+define this_user=moviestream;
+grant dwrole to &this_user;
+grant create table to &this_user;
+grant create view to &this_user;
+grant create procedure to &this_user;
+grant read,write on directory data_pump_dir to &this_user;
+grant execute on dbms_cloud to &this_user;
+</copy>
+```
 
 ## Setup
 Setup requires the installation of a package, a table and a view into your local schema.  Simply execute the snippet below a SQL Developer worksheet, SQL*Plus, sqlcl, etc.
@@ -20,6 +29,8 @@ Setup requires the installation of a package, a table and a view into your local
 -- Run the following in order to install the dbms_datasets pacakge, datasets view and datasets_log table
 
 -- Define the scripts found in the labs table.
+set serveroutput on
+
 declare
     b_plsql_script blob;            -- binary object
     c_plsql_script clob;    -- converted to clob

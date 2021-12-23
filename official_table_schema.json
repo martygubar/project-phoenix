@@ -1,0 +1,336 @@
+{
+    "DatabaseObjectsTablesItem": {
+        "type": "object",
+        "description": "This object describes a relational table in the database.",
+        "properties": {
+            "owner": {
+                "type": "string",
+                "description": "Owner of the table."
+            },
+            "table_name": {
+                "type": "string",
+                "description": "Name of the table."
+            },
+            "tablespace_name": {
+                "type": "string",
+                "description": "Name of the tablespace containing the table; NULL for partitioned, temporary, and index-organized tables."
+            },
+            "cluster_name": {
+                "type": "string",
+                "description": "Name of the cluster, if any, to which the table belongs."
+            },
+            "iot_name": {
+                "type": "string",
+                "description": "Name of the index-organized table, if any, to which the overflow or mapping table entry belongs. If the IOT_TYPE column is not NULL, then this column contains the base table name."
+            },
+            "status": {
+                "type": "string",
+                "description": "If a previous DROP TABLE operation failed, indicates whether the table is unusable (UNUSABLE) or valid (VALID)."
+            },
+            "pct_free": {
+                "type": "integer",
+                "description": "Minimum percentage of free space in a block; NULL for partitioned tables."
+            },
+            "pct_used": {
+                "type": "integer",
+                "description": "Minimum percentage of used space in a block; NULL for partitioned tables."
+            },
+            "ini_trans": {
+                "type": "integer",
+                "description": "Initial number of transactions; NULL for partitioned tables."
+            },
+            "max_trans": {
+                "type": "integer",
+                "description": "Maximum number of transactions; NULL for partitioned tables."
+            },
+            "initial_extent": {
+                "type": "integer",
+                "description": "Size of the initial extent (in bytes); NULL for partitioned tables."
+            },
+            "next_extent": {
+                "type": "integer",
+                "description": "Size of secondary extents (in bytes); NULL for partitioned tables."
+            },
+            "min_extents": {
+                "type": "integer",
+                "description": "Minimum number of extents allowed in the segment; NULL for partitioned tables."
+            },
+            "max_extents": {
+                "type": "integer",
+                "description": "Maximum number of extents allowed in the segment; NULL for partitioned tables."
+            },
+            "pct_increase": {
+                "type": "integer",
+                "description": "Percentage increase in extent size; NULL for partitioned tables."
+            },
+            "freelists": {
+                "type": "integer",
+                "description": "Number of process freelists allocated to the segment; NULL for partitioned tables."
+            },
+            "freelist_groups": {
+                "type": "integer",
+                "description": "Number of freelist groups allocated to the segment; NULL for partitioned tables."
+            },
+            "logging": {
+                "type": "string",
+                "description": "Indicates whether or not changes to the table are logged; YES, NO, or NULL for partitioned tables."
+            },
+            "backed_up": {
+                "type": "string",
+                "description": "Indicates whether the table has been backed up since the last modification (Y) or not (N)."
+            },
+            "num_rows": {
+                "type": "integer",
+                "description": "Number of rows in the table."
+            },
+            "blocks": {
+                "type": "integer",
+                "description": "Number of used data blocks in the table."
+            },
+            "empty_blocks": {
+                "type": "integer",
+                "description": "Number of empty (never used) data blocks in the table. This column is populated only if you collect statistics on the table using the DBMS_STATS package."
+            },
+            "avg_space": {
+                "type": "integer",
+                "description": "Average amount of free space, in bytes, in a data block allocated to the table."
+            },
+            "chain_cnt": {
+                "type": "integer",
+                "description": "Number of rows in the table that are chained from one data block to another, or which have migrated to a new block, requiring a link to preserve the old ROWID."
+            },
+            "avg_row_len": {
+                "type": "integer",
+                "description": "Average length of a row in the table (in bytes)."
+            },
+            "avg_space_freelist_blocks": {
+                "type": "integer",
+                "description": "Average freespace of all blocks on a freelist."
+            },
+            "num_freelist_blocks": {
+                "type": "integer",
+                "description": "Number of blocks on the freelist."
+            },
+            "degree": {
+                "type": "string",
+                "description": "Number of threads per instance for scanning the table, or DEFAULT."
+            },
+            "instances": {
+                "type": "string",
+                "description": "Number of instances across which the table is to be scanned, or DEFAULT."
+            },
+            "cache": {
+                "type": "string",
+                "description": "Indicates whether the table is to be cached in the buffer cache (Y) or not (N)."
+            },
+            "table_lock": {
+                "type": "string",
+                "description": "Indicates whether table locking is enabled (ENABLED) or disabled (DISABLED)."
+            },
+            "sample_size": {
+                "type": "integer",
+                "description": "Sample size used in analyzing this table."
+            },
+            "last_analyzed": {
+                "type": "string",
+                "description": "Date on which this table was most recently analyzed."
+            },
+            "partitioned": {
+                "type": "string",
+                "description": "Indicates whether the table is partitioned (YES) or not (NO)."
+            },
+            "iot_type": {
+                "type": "string",
+                "description": "If the table is an index-organized table, then IOT_TYPE is IOT, IOT_OVERFLOW, or IOT_MAPPING. If the table is not an index-organized table, then IOT_TYPE is NULL."
+            },
+            "temporary": {
+                "type": "string",
+                "description": "Indicates whether the table is temporary (Y) or not (N)."
+            },
+            "secondary": {
+                "type": "string",
+                "description": "Indicates whether the table is a secondary object created by the ODCIIndexCreate method of the Oracle Data Cartridge (Y) or not (N)."
+            },
+            "nested": {
+                "type": "string",
+                "description": "Indicates whether the table is a nested table (YES) or not (NO)."
+            },
+            "buffer_pool": {
+                "type": "string",
+                "description": "Buffer pool for the table."
+            },
+            "flash_cache": {
+                "type": "string",
+                "description": "Database Smart Flash Cache hint to be used for table blocks."
+            },
+            "cell_flash_cache": {
+                "type": "string",
+                "description": "Cell flash cache hint to be used for table blocks."
+            },
+            "row_movement": {
+                "type": "string",
+                "description": "Indicates whether partitioned row movement is enabled (ENABLED) or disabled (DISABLED)."
+            },
+            "global_stats": {
+                "type": "string",
+                "description": "GLOBAL_STATS will be YES if statistics are gathered or incrementally maintained, otherwise it will be NO."
+            },
+            "user_stats": {
+                "type": "string",
+                "description": "Indicates whether statistics were entered directly by the user (YES) or not (NO)."
+            },
+            "duration": {
+                "type": "string",
+                "description": "Indicates the duration of a temporary table."
+            },
+            "skip_corrupt": {
+                "type": "string",
+                "description": "Indicates whether Oracle Database ignores blocks marked corrupt during table and index scans (ENABLED) or raises an error (DISABLED). To enable this feature, run the DBMS_REPAIR.SKIP_CORRUPT_BLOCKS procedure."
+            },
+            "monitoring": {
+                "type": "string",
+                "description": "Indicates whether the table has the MONITORING attribute set (YES) or not (NO)."
+            },
+            "cluster_owner": {
+                "type": "string",
+                "description": "Owner of the cluster, if any, to which the table belongs."
+            },
+            "dependencies": {
+                "type": "string",
+                "description": "Indicates whether row-level dependency tracking is enabled (ENABLED) or disabled (DISABLED)."
+            },
+            "compression": {
+                "type": "string",
+                "description": "Indicates whether table compression is enabled (ENABLED) or not (DISABLED); NULL for partitioned tables."
+            },
+            "compress_for": {
+                "type": "string",
+                "description": "Default compression for what kind of operations:."
+            },
+            "dropped": {
+                "type": "string",
+                "description": "Indicates whether the table has been dropped and is in the recycle bin (YES) or not (NO); NULL for partitioned tables. This view does not return the names of tables that have been dropped."
+            },
+            "read_only": {
+                "type": "string",
+                "description": "Indicates whether the table segment is READ-ONLY or not."
+            },
+            "segment_created": {
+                "type": "string",
+                "description": "Indicates whether the table segment is created."
+            },
+            "result_cache": {
+                "type": "string",
+                "description": "Result cache mode annotation for the table."
+            },
+            "clustering": {
+                "type": "string",
+                "description": "Indicates whether the table has the attribute clustering clause (YES) or not (NO)."
+            },
+            "activity_tracking": {
+                "type": "string",
+                "description": "Indicates whether Heat Map tracking is enabled on the table."
+            },
+            "dml_timestamp": {
+                "type": "string",
+                "description": "Modification time, creation time, or both for Automatic Data Optimization."
+            },
+            "has_identity": {
+                "type": "string",
+                "description": "Indicates whether the table has an identity column (YES) or not (NO)."
+            },
+            "container_data": {
+                "type": "string",
+                "description": "Indicates whether the table contains container-specific data."
+            },
+            "inmemory": {
+                "type": "string",
+                "description": "Indicates whether the In-Memory Column Store (IM column store) is enabled (ENABLED) or disabled (DISABLED) for this table"
+            },
+            "inmemory_priority": {
+                "type": "string",
+                "description": "Indicates the priority for In-Memory Column Store (IM column store) population."
+            },
+            "inmemory_distribute": {
+                "type": "string",
+                "description": "Indicates how the IM column store is distributed in an Oracle Real Application Clusters (Oracle RAC) environment."
+            },
+            "inmemory_compression": {
+                "type": "string",
+                "description": "Indicates the compression level for the IM column store."
+            },
+            "inmemory_duplicate": {
+                "type": "string",
+                "description": "Indicates the duplicate setting for the IM column store in an Oracle RAC environment."
+            },
+            "default_collation": {
+                "type": "string",
+                "description": "Default collation for the table."
+            },
+            "duplicated": {
+                "type": "string",
+                "description": "Indicates whether this object is duplicated on this shard (Y) or not (N)."
+            },
+            "sharded": {
+                "type": "string",
+                "description": "Indicates whether this object is sharded (Y) or not (N)."
+            },
+            "external": {
+                "type": "string",
+                "description": "Indicates whether the table is an external table (YES) or not (NO)."
+            },
+            "hybrid": {
+                "type": "string",
+                "description": "Indicates whether the table is a hybrid partitioned table (YES) or not (NO). A hybrid partitioned table can contain a mixture of partitions stored in segments and partitions stored externally."
+            },
+            "cellmemory": {
+                "type": "string",
+                "description": "The value for columnar compression in the storage cell flash cache."
+            },
+            "containers_default": {
+                "type": "string",
+                "description": "Indicates whether the table is enabled for CONTAINERS() by default (YES) or not (NO)."
+            },
+            "container_map": {
+                "type": "string",
+                "description": "Indicates whether the table is enabled for use with the container_map database property (YES) or not (NO)."
+            },
+            "extended_data_link": {
+                "type": "string",
+                "description": "Indicates whether the table is enabled for fetching an extended data link from the root (YES) or not (NO)."
+            },
+            "inmemory_service": {
+                "type": "string",
+                "description": "Indicates how the IM column store is populated on various instances."
+            },
+            "inmemory_service_name": {
+                "type": "string",
+                "description": "Indicates the service name for the service on which the IM column store should be populated. This column has a value only when the corresponding INMEMORY_SERVICE is USER_DEFINED. In all other cases, this column is null."
+            },
+            "container_map_object": {
+                "type": "string",
+                "description": "Indicates whether the table is used as the value of the container_map database property (YES) or not (NO)."
+            },
+            "memoptimize_read": {
+                "type": "string",
+                "description": "Indicates whether the table is enabled for Fast Key Based Access (ENABLED) or not (DISABLED)."
+            },
+            "has_sensitive_column": {
+                "type": "string",
+                "description": "Indicates whether the table has one or more sensitive columns (YES) or not (NO)."
+            },
+            "admit_null": {
+                "type": "string",
+                "description": "Indicates whether the table admits null CON_ID data (YES) or not (NO)."
+            },
+            "data_link_dml_enabled": {
+                "type": "string",
+                "description": "Indicates whether DML is permitted on the Data Link table (YES) or not (NO)."
+            },
+            "logical_replication": {
+                "type": "string",
+                "description": "Indicates whether the table is enabled for logical replication (ENABLED) or not (DISABLED). This setting is ignored if database-wide column data supplemental logging is enabled."
+            }
+        }
+    }
+}

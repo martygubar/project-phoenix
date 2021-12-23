@@ -17,7 +17,7 @@
         "last_updated": {
             "type":"string",
             "format":"date-time",
-            "description": "Date that the dataset group was last updated"
+            "description": "Date that the dataset group was last updated. YYYY-MM-DD format"
         },
         "sql_script": {
             "type":"string",
