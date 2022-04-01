@@ -1,24 +1,36 @@
 -- table captures data set install log
-create or replace procedure dbms_datasets_setup as 
-begin 
+declare
+    l_format varchar2(1000) := '{"skipheaders":"0", "delimiter":"\n", "ignoreblanklines":"true"}';
+    l_uri    varchar2(1000) := 'https://raw.githubusercontent.com/martygubar/project-phoenix/master/data-sets.json';  
+    l_uri_group  varchar2(1000) := 'https://raw.githubusercontent.com/martygubar/project-phoenix/master/data-sets-group.json';
+begin
+   -- drop tables if they exist
+   for rec in (  
+    select table_name 
+    from user_tables
+    where table_name in ('EXT_DATASETS_GROUPS','EXT_DATASETS')
+    ) 
+   loop 
+      execute immediate 'drop table ' || rec.table_name;
+   end loop; 
+   
+   -- Create the table pointing to data sets and datasets_groups
+   dbms_cloud.create_external_table(
+            table_name => 'EXT_DATASETS',
+            file_uri_list => l_uri,
+            format => l_format,
+            column_list => 'doc varchar2(30000)'
+            );       
+       dbms_cloud.create_external_table(
+            table_name => 'EXT_DATASETS_GROUPS',
+            file_uri_list => l_uri_group,
+            format => l_format,
+            column_list => 'doc varchar2(30000)'
+            );       
+end;
+/
 
-    begin
-        execute immediate '
-            create table datasets_log
-            (	execution_time timestamp (6),
-                    message varchar2(32000 byte)
-            )';
-
-        exception 
-            when others then
-                dbms_output.put_line('There was an error.  Make sure datasets_log table has been created.');
-                dbms_output.put_line(sqlerrm);
-    end;
-
-    -- create the view over the list of dataset groups
-    begin
-        execute immediate q'+
-        create or replace view datasets_groups as  
+create or replace view datasets_groups as  
         select 
             a.doc.dataset_group as dataset_group,
             a.doc.description as description,
@@ -26,84 +38,41 @@ begin
             to_date(a.doc.last_updated, 'YYYY-MM-DD') as last_updated,
             a.doc.sql_script as sql_script,
             jt.dataset_name
-        from external (
-        (
-            doc clob     	   
-        ) 
-        type ORACLE_BIGDATA
-        default directory DATA_PUMP_DIR
-        access parameters (
-            com.oracle.bigdata.fileformat=textfile
-            com.oracle.bigdata.csv.rowformat.fields.terminator='\n'
-        )
-        location ('https://raw.githubusercontent.com/martygubar/project-phoenix/master/data-sets-group.json')
-        ) a,  json_table(a.doc.dataset_list, '$[*]' columns (dataset_name path '$')) jt
-        +';
+        from ext_datasets_groups a,  json_table(a.doc.dataset_list, '$[*]' columns (dataset_name path '$')) jt;
 
-        exception
-            when others then 
-                dbms_output.put_line('There was an error.  Make sure dataset_groups view has been created.');
-                dbms_output.put_line(sqlerrm);
-    end;
-
-    -- create the view over the list of datasets
-    begin
-        execute immediate q'[
-        create or replace view datasets as
-        with all_datasets as
-        (
-            select 
-                a.doc.dataset_name as dataset_name,
-                a.doc.description as description,
-                a.doc.table_name as table_name,
-                a.doc.file_type as file_type,
-                a.doc.format as format,
-                a.doc.url as url,
-                a.doc.columns as columns,
-                a.doc.sql_script,
-                a.doc.attribution,
-                a.doc.last_updated,
-                a.doc.version,
-                a.doc as doc
-            from external (
-            (
-                doc clob     	   
-            ) 
-            type ORACLE_BIGDATA
-            default directory DATA_PUMP_DIR
-            access parameters (
-                com.oracle.bigdata.fileformat=textfile
-                com.oracle.bigdata.csv.rowformat.fields.terminator='\n'
-            )
-            LOCATION ('https://raw.githubusercontent.com/martygubar/project-phoenix/master/data-sets.json')
-            ) a 
-        )
-        select g.dataset_group, a.* 
-        from all_datasets a, datasets_groups g
-        where a.dataset_name = g.dataset_name 
-        ]';
-
-        exception
-            when others then 
-                dbms_output.put_line('There was an error.  Make sure datasets view has been created.');
-                dbms_output.put_line(sqlerrm);
-    end;
+create or replace view datasets as
+with all_datasets as(
+select 
+    a.doc.dataset_name as dataset_name,
+    a.doc.description as description,
+    a.doc.table_name as table_name,
+    a.doc.file_type as file_type,
+    a.doc.format as format,
+    a.doc.url as url,
+    a.doc.columns as columns,
+    a.doc.sql_script,
+    a.doc.attribution,
+    a.doc.last_updated,
+    a.doc.version,
+    a.doc as doc
+from ext_datasets a
+)
+select g.dataset_group, a.* 
+from all_datasets a, datasets_groups g
+where a.dataset_name = g.dataset_name 
+; 
 
 
+create or replace package dbms_datasets as 
 
-    dbms_output.put_line('Creating dbms_stats package');
-    execute immediate ('
-        create or replace package dbms_datasets as 
+procedure get (p_dataset_name in varchar2 default null,
+            p_dataset_group varchar2 default null,
+            p_load_data boolean default true,
+            p_overwrite boolean default true);
 
-        procedure get (p_dataset_name in varchar2 default null,
-                    p_dataset_group varchar2 default null,
-                    p_load_data boolean default true,
-                    p_overwrite boolean default true);
-
-        end dbms_datasets;
-    ');
-
-    execute immediate q'[
+end dbms_datasets;
+/
+    
 create or replace package body dbms_datasets as
 
 
@@ -329,6 +298,4 @@ create or replace package body dbms_datasets as
   end get;
   
 end dbms_datasets;
-    ]';
-
-end dbms_datasets_setup;
+/
