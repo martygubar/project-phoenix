@@ -1,18 +1,3 @@
--- Drop tables
-begin
-   -- drop tables if they exist
-   for rec in (  
-    select table_name 
-    from user_tables
-    where table_name not in ('EXT_DATASETS','EXT_DATASETS_GROUPS','DATASETS_LOG')
-    ) 
-   loop 
-      execute immediate 'drop table ' || rec.table_name;
-   end loop; 
-    
-end;
-/
-
 -- list datasets
 select * from datasets;
 

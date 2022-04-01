@@ -27,40 +27,24 @@ Setup requires the installation of a package, a table and a view into your local
 ```sql
 <copy>
 -- Run the following in order to install the dbms_datasets pacakge, datasets view and datasets_log table
-
--- Define the scripts found in the labs table.
-set serveroutput on
-
 declare
-    b_plsql_script blob;            -- binary object
-    c_plsql_script clob;    -- converted to clob
-    uri varchar2(2000) := 'https://raw.githubusercontent.com/martygubar/project-phoenix/master/sql-files/setup.sql';
-
+    l_git varchar2(4000);
+    l_repo_name varchar2(100) := 'project-phoenix';
+    l_owner varchar2(100) := 'martygubar';
+    l_package_file varchar2(200) := 'sql-files/setup.sql';
 begin
+    -- get a handle to github
+    l_git := dbms_cloud_repo.init_github_repo(
+                 repo_name       => l_repo_name,
+                 owner           => l_owner );
 
-    dbms_output.put_line('downloading datasets setup script');
+    -- install the package header
+    dbms_cloud_repo.install_file(
+        repo        => l_git,
+        file_path   => l_package_file);
 
-    b_plsql_script := dbms_cloud.get_object(object_uri => uri);
-
-    dbms_output.put_line('....creating plsql package dbms_stats ');
-    -- convert the blob to a varchar2 and then create the procedure
-    c_plsql_script :=  to_clob( b_plsql_script );
-
-    -- generate the procedure
-    execute immediate c_plsql_script;
-    
-    exception
-        when others then
-            dbms_output.put_line('Unable to install the setup routines.');
-            dbms_output.put_line('');
-            dbms_output.put_line(sqlerrm);
- end;
- /
- 
--- run the script that was just downloaded and created
-exec  dbms_datasets_setup;
-
-</copy>
+end;
+/
 ```
 
 ## List available datasets
