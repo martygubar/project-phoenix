@@ -8,7 +8,7 @@ begin
    for rec in (  
     select table_name 
     from user_tables
-    where table_name in ('EXT_DATASETS_GROUPS','EXT_DATASETS')
+    where table_name in ('EXT_DATASETS_GROUPS','EXT_DATASETS', 'DATASETS_LOG')
     ) 
    loop 
       execute immediate 'drop table ' || rec.table_name;
@@ -29,6 +29,12 @@ begin
             );       
 end;
 /
+
+-- Table used for logging operations
+create table datasets_log 
+   (	execution_time timestamp (6), 
+	    message varchar2(32000 byte)
+   ) ;
 
 create or replace view datasets_groups as  
         select 
